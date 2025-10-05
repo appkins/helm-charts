@@ -135,7 +135,7 @@ cacheHA:
 
   ## TLS is enabled by default when cacheHA is enabled
   ## if you want to disable TLS, set tls ports (cacheHA.redis.tlsPort and cacheHA.sentinel.tlsPort) to 0
-  ## and set cacheHA.redis.port to 6379 and cacheHA.sentinel.port to 26379 
+  ## and set cacheHA.redis.port to 6379 and cacheHA.sentinel.port to 26379
   tls:
     secretName: "{{ .Release.Name }}-cluster-cache-ha-tls"
     certFile: tls.crt
@@ -153,22 +153,8 @@ cacheHA:
     port: 0
     tlsPort: 26379
     tlsReplication: true
-
-    customConfig: |
-      dir "/data"
-      port 0
-      tls-port 26379
-      tls-cert-file /tls-certs/tls.crt
-      tls-key-file /tls-certs/tls.key
-      tls-ca-cert-file /tls-certs/ca.crt
-      tls-replication yes
-      sentinel down-after-milliseconds mymaster 10000
-      sentinel failover-timeout mymaster 180000
-      maxclients 10000
-      sentinel parallel-syncs mymaster 5
-      sentinel auth-pass mymaster replace-default-auth
-      sentinel resolve-hostnames yes
-      sentinel announce-hostnames yes
+    resolveHostnames: true
+    announceHostnames: true
 
   podDisruptionBudget: {}
     # Use only one of the two
