@@ -154,6 +154,22 @@ cacheHA:
     tlsPort: 26379
     tlsReplication: true
 
+    customConfig: |
+      dir "/data"
+      port 0
+      tls-port 26379
+      tls-cert-file /tls-certs/tls.crt
+      tls-key-file /tls-certs/tls.key
+      tls-ca-cert-file /tls-certs/ca.crt
+      tls-replication yes
+      sentinel down-after-milliseconds mymaster 10000
+      sentinel failover-timeout mymaster 180000
+      maxclients 10000
+      sentinel parallel-syncs mymaster 5
+      sentinel auth-pass mymaster replace-default-auth
+      sentinel resolve-hostnames yes
+      sentinel announce-hostnames yes
+
   podDisruptionBudget: {}
     # Use only one of the two
     # maxUnavailable: 1
